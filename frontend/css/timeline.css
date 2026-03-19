@@ -1,0 +1,95 @@
+.timeline-track {
+    position: relative;
+    height: 80px;
+    border-bottom: 1px solid rgba(99,102,241,0.2);
+    padding: 20px 0;
+}
+
+.track-label {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6366f1;
+    text-transform: uppercase;
+}
+
+.track-content {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    height: 40px;
+}
+
+/* 🔥 BEAUTIFUL CLIPS */
+.timeline-clip {
+    position: absolute;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(99,102,241,0.3);
+    border: 2px solid rgba(255,255,255,0.1);
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.video-clip {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: white;
+}
+
+.timeline-clip:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(99,102,241,0.5);
+}
+
+.timeline-clip.selected {
+    border-color: #00ff88 !important;
+    box-shadow: 0 0 0 3px rgba(0,255,136,0.3) !important;
+}
+
+.clip-info {
+    flex: 1;
+    padding: 0 12px;
+    overflow: hidden;
+}
+
+.clip-name {
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.clip-time {
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+.trim-handle {
+    position: absolute;
+    top: 0;
+    width: 12px;
+    height: 100%;
+    background: rgba(255,255,255,0.9);
+    border-radius: 6px;
+    cursor: ew-resize;
+}
+
+.trim-handle.left { left: 0; }
+.trim-handle.right { right: 0; }
+
+.playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, #ff4444, #ff8888);
+    z-index: 100;
+    box-shadow: 0 0 20px rgba(255,68,68,0.6);
+}

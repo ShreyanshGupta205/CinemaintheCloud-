@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video + Audio Studio Pro 🎬🎵</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/timeline.css" />
+  <link rel="stylesheet" href="css/panels.css" />
+  
+  <!-- 🔥 AUDIO + FULLSCREEN CSS -->
+  <style>
+    /* 🔥 PROPERTIES PANEL / CLIP EDITING LAYOUT FIX */
+    #propertiesPanel {
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .panel-content {
+      padding: 12px;
+      background: #0f172a;
+    }
+
+    .properties-content {
+      color: #fff;
+      font-size: 12px;
+      overflow-x: hidden; /* horizontal scroll rokne ke liye */
+    }
+
+    /* ✅ CLIP EDITING WRAPPER - SCREEN SE BAHAR NIKALNA BAND KARO */
+    .clip-editing {
+      margin-top: 16px;
+      padding: 16px;
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 12px;
+      border: 1px solid rgba(99, 102, 241, 0.5);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      overflow: hidden; /* horizontal overflow mask */
+    }
+
+    .clip-editing input,
+    .clip-editing label,
+    .clip-editing button {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .clip-editing h4,
+    .clip-editing h5 {
+      margin: 0 0 12px 0;
+      font-weight: 500;
+    }
+
+    /* ✅ GRID / TEXT OVERLAY LAYOUTS */
+    .clip-editing > div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .clip-editing input[type="number"],
+    .clip-editing input[type="range"] {
+      max-width: 100%;
+    }
+
+    /* ✅ OVERLAY TEXT ON PREVIEW (VIDEO KE UPAR) */
+    .video-overlay {
+      position: absolute;
+      z-index: 10;
+      pointer-events: none;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Top Bar -->
+    <header class="app-header">
+      <div class="logo">Video Studio Pro</div>
+      <div class="header-actions">
+        <button id="newProjectBtn" class="btn primary">New Project</button>
+        <button id="saveProjectBtn" class="btn">Save</button>
+        <button id="exportBtn" class="btn success">Export</button>
+      </div>
+    </header>
+
+    <!-- Main Layout -->
+    <main class="app-main">
+      <!-- Left Panel -->
+      <aside class="side-panel left-panel">
+        <div class="panel-tabs">
+          <button class="panel-tab active" data-panel="mediaPanel">Media</button>
+          <button class="panel-tab" data-panel="effectsPanel">Effects</button>
+          <button class="panel-tab" data-panel="audioPanel">Audio</button>
+        </div>
+
+        <!-- Media Panel -->
+        <section id="mediaPanel" class="panel-content active">
+          <div class="panel-header">
+            <h2>Project Media</h2>
+            <label class="file-input-label">
+              + Add Media
+              <input id="mediaInput" type="file" accept="video/*,image/*,audio/*" multiple />
+            </label>
+          </div>
+          <div id="mediaList" class="media-list"></div>
+        </section>
+
+        <!-- Effects Panel -->
+        <section id="effectsPanel" class="panel-content">
+          <div class="panel-header"><h2>Effects</h2></div>
+          <div id="effectsList" class="effects-list"></div>
+        </section>
+
+        <!-- 🔥 AUDIO PANEL -->
+        <section id="audioPanel" class="panel-content">
+          <div class="panel-header">
+            <h2>🎵 Audio Effects</h2>
+            <div style="font-size:12px;color:#9ca3af;">Select audio clip → Click effect → Preview</div>
+          </div>
+          <div id="audioTrackList" style="padding:20px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;">
+              
+              <div class="audio-effect-group" data-audio-effect="volume-boost">
+                <div class="audio-effect-item" data-audio-effect="volume-boost">
+                  <div style="font-size:28px;margin-bottom:8px;">🔊</div>
+                  <div style="font-size:13px;font-weight:600;">Volume</div>
+                </div>
+                <div style="margin-top:8px;">
+                  <input type="range" class="audio-intensity" min="1" max="3" step="0.1" value="1.5">
+                  <div style="font-size:11px;color:#9ca3af;text-align:center;">150%</div>
+                </div>
+              </div>
+
+              <div class="audio-effect-group" data-audio-effect="bass-boost">
+                <div class="audio-effect-item" data-audio-effect="bass-boost">
+                  <div style="font-size:28px;margin-bottom:8px;">🥁</div>
+                  <div style="font-size:13px;font-weight:600;">Bass</div>
+                </div>
+                <div style="margin-top:8px;">
+                  <input type="range" class="audio-intensity" min="0" max="2" step="0.1" value="1">
+                  <div style="font-size:11px;color:#9ca3af;text-align:center;">100%</div>
+                </div>
+              </div>
+
+              <div class="audio-effect-group" data-audio-effect="echo">
+                <div class="audio-effect-item" data-audio-effect="echo">
+                  <div style="font-size:28px;margin-bottom:8px;">🔄</div>
+                  <div style="font-size:13px;font-weight:600;">Echo</div>
+                </div>
+                <div style="margin-top:8px;">
+                  <input type="range" class="audio-intensity" min="0" max="1.5" step="0.1" value="0.5">
+                  <div style="font-size:11px;color:#9ca3af;text-align:center;">50%</div>
+                </div>
+              </div>
+
+              <div class="audio-effect-group" data-audio-effect="robot">
+                <div class="audio-effect-item" data-audio-effect="robot">
+                  <div style="font-size:28px;margin-bottom:8px;">🤖</div>
+                  <div style="font-size:13px;font-weight:600;">Robot</div>
+                </div>
+                <div style="margin-top:8px;">
+                  <input type="range" class="audio-intensity" min="0" max="1" step="0.1" value="0.5">
+                  <div style="font-size:11px;color:#9ca3af;text-align:center;">50%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <!-- 🔥 CENTER PANEL WITH FULLSCREEN -->
+      <section class="editor-container">
+        <section class="preview-section">
+          <div class="preview-wrapper">
+            <video id="previewVideo" controls class="preview-video"></video>
+            <canvas id="previewCanvas" class="preview-canvas"></canvas>
+          </div>
+          <!-- 🔥 FULLSCREEN BUTTON ADDED! -->
+          <div class="preview-controls">
+            <button id="playPauseBtn" class="btn icon">▶</button>
+            <button id="stopBtn" class="btn icon">⏹</button>
+            <button id="fullscreenBtn" title="Fullscreen">⛶</button>
+            <span id="timecode" class="timecode">00:00 / 00:00</span>
+          </div>
+        </section>
+
+        <section class="timeline-section">
+          <div class="timeline-toolbar">
+            <span>Timeline</span>
+            <div class="timeline-tools">
+              <button id="zoomOutTimeline" class="btn icon">−</button>
+              <button id="zoomInTimeline" class="btn icon">+</button>
+            </div>
+          </div>
+          <div id="timelineContainer" class="timeline-container">
+            <div id="videoTrack" class="timeline-track" data-track-type="video">
+              <div class="track-label">Video</div>
+              <div class="track-content"></div>
+            </div>
+            <div id="audioTrack" class="timeline-track" data-track-type="audio">
+              <div class="track-label">Audio</div>
+              <div class="track-content"></div>
+            </div>
+            <div id="imageTrack" class="timeline-track" data-track-type="image">
+              <div class="track-label">Images</div>
+              <div class="track-content"></div>
+            </div>
+            <div id="playhead" class="timeline-playhead"></div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Right Panel -->
+      <aside class="side-panel right-panel">
+        <div class="panel-tabs">
+          <button class="panel-tab active" data-panel="propertiesPanel">Properties</button>
+          <button class="panel-tab" data-panel="projectPanel">Project</button>
+        </div>
+        <section id="propertiesPanel" class="panel-content active">
+          <div class="panel-header"><h2>Clip Properties</h2></div>
+          <div id="propertiesContent" class="properties-content">
+            <p>Select a clip on the timeline to edit its properties.</p>
+          </div>
+        </section>
+        <section id="projectPanel" class="panel-content">
+          <div class="panel-header"><h2>Project Settings</h2></div>
+          <form id="projectSettingsForm" class="project-settings-form">
+            <label>Project Name
+              <input id="projectNameInput" type="text" placeholder="My video project" />
+            </label>
+            <label>Resolution
+              <select id="resolutionSelect">
+                <option value="1920x1080">1920 x 1080 (Full HD)</option>
+                <option value="1280x720">1280 x 720 (HD)</option>
+                <option value="1080x1080">1080 x 1080 (Square)</option>
+              </select>
+            </label>
+            <label>Frame Rate
+              <select id="fpsSelect">
+                <option value="24">24 fps</option>
+                <option value="30" selected>30 fps</option>
+                <option value="60">60 fps</option>
+              </select>
+            </label>
+          </form>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <!-- 🔥 SCRIPTS -->
+  <script src="js/audio.js"></script>
+  <script type="module" src="js/app.js"></script>
+  
+  <!-- 🔥 AUDIO + FULLSCREEN HANDLERS -->
+ <script>
+  // 🔥 CREATE AUDIO ENGINE ON LOAD
+  document.addEventListener('DOMContentLoaded', function() {
+    window.audioEngine = new AudioEngine();
+    
+    // 🔥 EFFECT BUTTONS - ONE CLICK WORKING!
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.audio-effect-item')) {
+        const effect = e.target.closest('.audio-effect-item').dataset.audioEffect;
+        window.audioEngine.applyEffect(effect);
+        
+        // Visual feedback
+        e.target.closest('.audio-effect-item').classList.add('active');
+        setTimeout(() => {
+          e.target.closest('.audio-effect-item').classList.remove('active');
+        }, 500);
+      }
+    });
+    
+    console.log('🎬🎵 SIMPLE AUDIO EFFECTS READY!');
+  });
+</script>
+</body>
+</html>
