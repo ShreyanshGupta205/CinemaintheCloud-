@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinema in the Cloud – AI Video Editor</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!-- Splash Screen -->
+  <div id="splash">
+    <div class="splash-content">
+      <h1>🎥 Cinema in the Cloud</h1>
+      <p>AI-Powered Collaborative Filmmaking</p>
+      <div class="progress-bar"><div class="progress"></div></div>
+    </div>
+  </div>
+
+  <!-- Main Editor UI -->
+  <div id="app" class="hidden">
+
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="logo">🎥 Cinema in the Cloud</div>
+      <nav>
+        <button>File</button>
+        <button>Edit</button>
+        <button>View</button>
+        <button id="ai-tools-btn">AI Tools</button>
+        <button>Help</button>
+      </nav>
+      <div class="profile">☁️ Cloud Save</div>
+    </header>
+
+    <!-- Main Layout -->
+    <main class="editor">
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <h3>Media</h3>
+        <button>📂 Import</button>
+        <button>🎵 Audio</button>
+        <button>🧠 AI Stock</button>
+        <button>🎙 Record</button>
+        <h3>Tools</h3>
+        <button>🎨 Filters</button>
+        <button>✨ Effects</button>
+        <button>🗨 Text</button>
+        <button>🎬 Transitions</button>
+        <button>🎯 Color</button>
+        <button>⚡ Speed</button>
+        <button class="pro">🧠 Auto-Edit (Pro)</button>
+        <button class="pro">🌍 Translate (Pro)</button>
+      </aside>
+
+      <!-- Preview Player -->
+      <section class="preview">
+        <video id="preview-video" controls>
+          <source src="assets/sample.mp4" type="video/mp4">
+        </video>
+        <div class="preview-controls">
+          <button>⏯ Play</button>
+          <button>⏪ Rewind</button>
+          <button>⏩ Forward</button>
+          <button>🔇 Mute</button>
+          <button>📸 Snapshot</button>
+        </div>
+      </section>
+
+      <!-- AI Drawer -->
+      <aside id="ai-drawer" class="ai-drawer">
+        <div class="drawer-header">
+          <h2>🤖 AI Assistant</h2>
+          <button id="close-ai">✖</button>
+        </div>
+        <div class="drawer-content">
+          <button data-action="autoEdit">🪄 Auto Edit</button>
+          <button data-action="subs">🗣 Subtitles</button>
+          <button data-action="music">🎵 Music Match</button>
+          <button data-action="script">✍ Script Idea</button>
+          <button data-action="scene">🎞 Scene Detect</button>
+          <button data-action="style">🎭 Style Transfer</button>
+          <button data-action="swap">🧍 Face Swap</button>
+          <button data-action="emotion">🌈 Emotion Detect</button>
+          <button data-action="analytics">📈 Analytics</button>
+          <button data-action="director">🎯 Director Mode</button>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Timeline -->
+    <footer class="timeline">
+      <div class="timeline-header">
+        <h3>Timeline</h3>
+        <div>
+          <button>➕ Add Track</button>
+          <button>⏳ Undo</button>
+          <button>🔁 Redo</button>
+        </div>
+      </div>
+      <div class="timeline-content">
+        <div class="track">🎞 Video</div>
+        <div class="track">🎵 Audio</div>
+        <div class="track">🗨 Text</div>
+      </div>
+    </footer>
+
+    <!-- AI Output Modal -->
+    <div id="ai-modal" class="modal hidden">
+      <div class="modal-content">
+        <h2 id="ai-modal-title">AI Processing...</h2>
+        <p id="ai-modal-text"></p>
+        <button id="close-modal">Close</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
